@@ -64,7 +64,22 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return
   }
 
-  const { foreground, background } = req.body ?? {}
+  let parsedBody: unknown = req.body
+
+  // On Vercel Node runtime, body can arrive as a raw JSON string.
+  if (typeof parsedBody === 'string') {
+    try {
+      parsedBody = JSON.parse(parsedBody)
+    } catch {
+      res.status(400).json({ error: 'Invalid JSON body' })
+      return
+    }
+  }
+
+  const { foreground, background } = (parsedBody ?? {}) as {
+    foreground?: string
+    background?: string
+  }
 
   if (!foreground || !background) {
     res.status(400).json({ error: 'foreground and background are required' })
