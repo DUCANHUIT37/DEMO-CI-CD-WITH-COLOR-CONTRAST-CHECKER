@@ -34,7 +34,7 @@ export default function ContrastChecker() {
 
   useEffect(() => {
     const controller = new AbortController()
-    const apiBase = 'http://localhost:3001'
+    const apiBase = import.meta.env.VITE_API_URL ?? ''
 
     const fetchContrast = async () => {
       try {
