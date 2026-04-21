@@ -8,7 +8,6 @@ export function createApp() {
   app.use(cors());
   app.use(express.json());
 
-  // All API routes are under /api
   app.use('/api', apiRouter);
 
   return app;

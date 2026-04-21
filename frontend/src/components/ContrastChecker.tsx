@@ -58,7 +58,6 @@ export default function ContrastChecker() {
         const data = (await response.json()) as ContrastResult
         setResult(data)
       } catch {
-        // Ignore abort/network errors and just clear current result.
         setResult(null)
       }
     }
@@ -86,7 +85,6 @@ export default function ContrastChecker() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      {/* Header */}
       <header
         className="w-full py-5 text-center shadow-md"
         style={{
@@ -99,7 +97,6 @@ export default function ContrastChecker() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-10">
-        {/* Contrast Ratio Hero */}
         <section className="text-center mb-10">
           <p className="text-xl font-semibold tracking-[0.3em] uppercase text-gray-400 mb-2">
             Contrast Ratio
@@ -120,9 +117,7 @@ export default function ContrastChecker() {
           </span>
         </section>
 
-        {/* Two-column layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          {/* Left: Color Pickers */}
           <div>
             <ColorPicker
               label="Foreground Color"
@@ -138,14 +133,12 @@ export default function ContrastChecker() {
             />
           </div>
 
-          {/* Right: Live Preview + WCAG Results */}
           <div className="flex flex-col gap-4">
             <LivePreview foreground={fg} background={bg} />
             <WCAGResults result={result} />
           </div>
         </div>
 
-        {/* Feature Cards */}
         <div className="flex flex-col md:flex-row gap-4 mt-8">
           <FeatureCard
             icon={

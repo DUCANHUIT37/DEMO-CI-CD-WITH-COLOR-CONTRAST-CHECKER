@@ -1,11 +1,6 @@
 import { Request, Response } from 'express';
 import { calculateContrastRatio } from '../utils/contrastCalculator';
 
-/**
- * POST /api/contrast
- * Body: { foreground: string, background: string }
- * Returns: ContrastResult | { error: string }
- */
 export function getContrast(req: Request, res: Response): void {
   const { foreground, background } = req.body as {
     foreground?: string;
@@ -29,10 +24,6 @@ export function getContrast(req: Request, res: Response): void {
   res.json(result);
 }
 
-/**
- * GET /api/contrast?fg=#001D31&bg=#F7F9FB
- * Query params: fg, bg
- */
 export function getContrastQuery(req: Request, res: Response): void {
   const fg = req.query['fg'] as string | undefined;
   const bg = req.query['bg'] as string | undefined;

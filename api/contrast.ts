@@ -1,7 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-// ── Inline toàn bộ logic từ backend để tránh import path phức tạp ──
-
 const THRESHOLDS = {
   AA_NORMAL: 4.5,
   AAA_NORMAL: 7.0,
@@ -47,9 +45,7 @@ function calculateContrastRatio(foreground: string, background: string) {
   }
 }
 
-// ── Vercel handler ──
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
@@ -66,7 +62,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
   let parsedBody: unknown = req.body
 
-  // On Vercel Node runtime, body can arrive as a raw JSON string.
   if (typeof parsedBody === 'string') {
     try {
       parsedBody = JSON.parse(parsedBody)

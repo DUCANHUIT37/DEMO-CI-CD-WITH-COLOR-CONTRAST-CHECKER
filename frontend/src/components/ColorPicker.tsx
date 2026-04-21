@@ -31,7 +31,7 @@ export default function ColorPicker({ label, icon, color, onChange }: ColorPicke
       await navigator.clipboard.writeText(color.toUpperCase())
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
-    } catch { /* silent */ }
+    } catch {}
   }
 
   return (
@@ -47,7 +47,6 @@ export default function ColorPicker({ label, icon, color, onChange }: ColorPicke
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
         <div className="flex items-center gap-4">
-          {/* Color swatch — also acts as native color picker */}
           <label className="cursor-pointer flex-shrink-0">
             <div
               className="w-16 h-16 rounded-xl border border-gray-200 shadow-inner transition-transform hover:scale-105"
