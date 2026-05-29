@@ -47,7 +47,7 @@ textcolor-contrast-checker/
 
 | # | Tính năng | File(s) thay đổi | Test | Deploy | Ngày |
 |---|-----------|-----------------|------|--------|------|
-| — | *(chưa có)* | — | — | — | — |
+| 001 | Aurora UI Redesign | `index.css`, `ContrastChecker.tsx`, `ColorPicker.tsx`, `LivePreview.tsx`, `WCAGResults.tsx` | FE-only | ✅ CI/CD → Vercel | 2026-05-29 |
 
 ---
 
@@ -58,30 +58,25 @@ textcolor-contrast-checker/
 
 ---
 
-### CHANGE-001 · [Tên tính năng ngắn gọn]
+### ✅ CHANGE-001 · Aurora UI Redesign *(COMPLETED)*
 
-**Mô tả**: [Mô tả bạn muốn thêm/sửa gì trên web]
+**Mô tả**: Đổi phong cách trang web sang hướng huyền ảo như Samsung Galaxy AI — nền sáng.
 
-**Ví dụ hành vi mong muốn**:
-- Người dùng làm X → web hiển thị Y
-- Khi Z thì phải có W
+**Đã implement**:
+- `index.css`: Aurora orb keyframes, `.glass-card` glassmorphism, `.aurora-text` shimmer gradient, `.aurora-border`, swatch glow ring, custom scrollbar
+- `ContrastChecker.tsx`: 3 floating aurora background orbs, glass header, Space Grotesk font, animated ratio số (pop animation), gradient WCAG badge (AAA/AA/Fail), staggered float-up cards
+- `ColorPicker.tsx`: Glass card + aurora border, aurora gradient hex label, swatch glow ring
+- `LivePreview.tsx`: Aurora border + inner light reflection overlay
+- `WCAGResults.tsx`: Glass cards, aurora gradient title, emerald/rose badge colors
 
-**Vị trí trên web**: [Header / Phần nhập màu / Phần kết quả / Footer / Trang mới / ...]
-
-**Loại thay đổi**:
-- [ ] Chỉ frontend (giao diện, UX)
-- [ ] Chỉ backend (API mới, logic mới)
-- [ ] Cả hai
-
-**Mức ưu tiên**: [Cao / Trung bình / Thấp]
-
-**Ghi chú thêm**: [Màu sắc, font, icon, layout cụ thể — nếu có]
+**Commit**: `feat(CHANGE-001): redesign UI to Samsung Galaxy AI aurora aesthetic`
+**Deploy**: GitHub Actions → Vercel production ✅
 
 ---
 
 ### CHANGE-002 · [Tên tính năng tiếp theo]
 
-*(copy block CHANGE-001 ở trên và điền vào)*
+chưa có
 
 ---
 
