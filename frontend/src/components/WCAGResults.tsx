@@ -7,8 +7,10 @@ interface WCAGResultsProps {
 function Badge({ pass }: { pass: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${
-        pass ? 'text-green-600' : 'text-red-500'
+      className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded-full ${
+        pass
+          ? 'text-emerald-700 bg-emerald-50'
+          : 'text-rose-600 bg-rose-50'
       }`}
     >
       {pass ? (
@@ -25,20 +27,36 @@ function Badge({ pass }: { pass: boolean }) {
   )
 }
 
-function ResultCard({ title, smallPass, largePass }: {
+function ResultCard({ title, smallPass, largePass, accentFrom, accentTo }: {
   title: string
   smallPass: boolean
   largePass: boolean
+  accentFrom: string
+  accentTo: string
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex-1">
-      <p className="text-xs font-bold tracking-widest uppercase text-gray-500 mb-3">{title}</p>
+    <div className="glass-card aurora-border rounded-2xl p-4 flex-1">
+      <p
+        className="text-xs font-bold tracking-widest uppercase mb-3"
+        style={{
+          background: `linear-gradient(90deg, ${accentFrom}, ${accentTo})`,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}
+      >
+        {title}
+      </p>
       <div className="space-y-2">
-        <div className="flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2">
+        <div className="flex items-center justify-between rounded-xl px-3 py-2"
+          style={{ background: 'rgba(248, 247, 255, 0.8)' }}
+        >
           <span className="text-sm text-gray-600 font-medium">Small Text</span>
           <Badge pass={smallPass} />
         </div>
-        <div className="flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2">
+        <div className="flex items-center justify-between rounded-xl px-3 py-2"
+          style={{ background: 'rgba(248, 247, 255, 0.8)' }}
+        >
           <span className="text-sm text-gray-600 font-medium">Large Text</span>
           <Badge pass={largePass} />
         </div>
@@ -51,16 +69,20 @@ export default function WCAGResults({ result }: WCAGResultsProps) {
   if (!result) return null
 
   return (
-    <div className="flex gap-3 mt-4">
+    <div className="flex gap-3 mt-3">
       <ResultCard
         title="WCAG AA"
         smallPass={result.passesAA}
         largePass={result.passesAALarge}
+        accentFrom="#6366f1"
+        accentTo="#06b6d4"
       />
       <ResultCard
         title="WCAG AAA"
         smallPass={result.passesAAA}
         largePass={result.passesAAALarge}
+        accentFrom="#8b5cf6"
+        accentTo="#ec4899"
       />
     </div>
   )

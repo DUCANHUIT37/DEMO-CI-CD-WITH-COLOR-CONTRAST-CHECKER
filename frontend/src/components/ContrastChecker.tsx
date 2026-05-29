@@ -11,17 +11,26 @@ function FeatureCard({
   icon,
   title,
   description,
+  delay = '0ms',
 }: {
   icon: React.ReactNode
   title: string
   description: string
+  delay?: string
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex-1">
-      <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center mb-4 text-blue-500">
-        {icon}
+    <div
+      className="glass-card aurora-border rounded-2xl p-6 flex-1 animate-float-up"
+      style={{ animationDelay: delay }}
+    >
+      <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+        style={{
+          background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(6,182,212,0.12) 100%)',
+        }}
+      >
+        <span className="aurora-text">{icon}</span>
       </div>
-      <h3 className="font-semibold text-gray-800 mb-1.5">{title}</h3>
+      <h3 className="font-semibold text-gray-800 mb-1.5 font-[Space_Grotesk]">{title}</h3>
       <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
     </div>
   )
@@ -31,6 +40,7 @@ export default function ContrastChecker() {
   const [fg, setFg] = useState(DEFAULT_FG)
   const [bg, setBg] = useState(DEFAULT_BG)
   const [result, setResult] = useState<ContrastResult | null>(null)
+  const [ratioKey, setRatioKey] = useState(0)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -40,97 +50,118 @@ export default function ContrastChecker() {
       try {
         const response = await fetch(`${apiBase}/api/contrast`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            foreground: fg,
-            background: bg,
-          }),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ foreground: fg, background: bg }),
           signal: controller.signal,
         })
-
-        if (!response.ok) {
-          setResult(null)
-          return
-        }
-
+        if (!response.ok) { setResult(null); return }
         const data = (await response.json()) as ContrastResult
         setResult(data)
+        setRatioKey(k => k + 1)
       } catch {
         setResult(null)
       }
     }
 
     fetchContrast()
-
     return () => controller.abort()
   }, [fg, bg])
 
-  const badgeColor =
+  // Badge config
+  const badgeConfig =
     result?.level === 'AAA'
-      ? 'bg-amber-400 text-amber-900'
+      ? { bg: 'from-violet-500 via-purple-500 to-indigo-500', label: 'WCAG AAA ✦ PASS' }
       : result?.level === 'AA'
-      ? 'bg-blue-100 text-blue-700'
-      : 'bg-red-100 text-red-600'
-
-  const badgeLabel =
-    result?.level === 'AAA'
-      ? 'WCAG AAA PASS'
-      : result?.level === 'AA'
-      ? 'WCAG AA PASS'
-      : 'WCAG FAIL'
+      ? { bg: 'from-blue-400 via-cyan-400 to-sky-500', label: 'WCAG AA ✦ PASS' }
+      : { bg: 'from-rose-400 via-pink-400 to-red-400', label: 'WCAG ✦ FAIL' }
 
   const [whole, decimal] = result ? result.ratioFormatted.split('.') : ['—', '—']
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      <header
-        className="w-full py-5 text-center shadow-md"
-        style={{
-          background: 'linear-gradient(90deg,rgb(194, 228, 255) 0%,rgb(59, 154, 250) 100%)',
-        }}
-      >
-        <h1 className="text-white text-xl font-[1000] tracking-[0.25em] uppercase">
-          MHHCHECKER
-        </h1>
+    <div className="min-h-screen relative overflow-hidden font-sans"
+      style={{ background: 'linear-gradient(160deg, #f8f7ff 0%, #f0f9ff 35%, #faf5ff 65%, #f0f9ff 100%)' }}
+    >
+      {/* ── Aurora background orbs ── */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden>
+        <div className="aurora-orb-1 absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-30"
+          style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.35) 0%, rgba(99,102,241,0.15) 50%, transparent 70%)' }}
+        />
+        <div className="aurora-orb-2 absolute top-1/3 -right-60 w-[700px] h-[700px] rounded-full opacity-25"
+          style={{ background: 'radial-gradient(circle, rgba(6,182,212,0.35) 0%, rgba(59,130,246,0.15) 50%, transparent 70%)' }}
+        />
+        <div className="aurora-orb-3 absolute -bottom-40 left-1/3 w-[500px] h-[500px] rounded-full opacity-20"
+          style={{ background: 'radial-gradient(circle, rgba(236,72,153,0.25) 0%, rgba(139,92,246,0.12) 50%, transparent 70%)' }}
+        />
+        {/* subtle grid */}
+        <div className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(99,102,241,1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
+        />
+      </div>
+
+      {/* ── Header ── */}
+      <header className="relative z-10 w-full py-5 text-center">
+        <div className="glass-card mx-4 sm:mx-auto sm:max-w-xl rounded-2xl py-4 px-8 animate-float-up">
+          <div className="flex items-center justify-center gap-3">
+            {/* Prism icon */}
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
+              <defs>
+                <linearGradient id="prism-g" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#6366f1" />
+                  <stop offset="50%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#06b6d4" />
+                </linearGradient>
+              </defs>
+              <path d="M12 2L2 19h20L12 2z" stroke="url(#prism-g)" strokeWidth="1.8" strokeLinejoin="round" fill="none"/>
+              <path d="M12 2L7 19" stroke="rgba(139,92,246,0.4)" strokeWidth="1" />
+              <path d="M12 2L17 19" stroke="rgba(6,182,212,0.4)" strokeWidth="1" />
+            </svg>
+            <h1 className="aurora-text text-lg font-[900] tracking-[0.3em] uppercase">
+              MHHCHECKER
+            </h1>
+          </div>
+          <p className="text-[10px] tracking-[0.2em] uppercase text-gray-400 mt-1">
+            Color Contrast Intelligence
+          </p>
+        </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-10">
-        <section className="text-center mb-10">
-          <p className="text-xl font-semibold tracking-[0.3em] uppercase text-gray-400 mb-2">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 py-8">
+
+        {/* ── Ratio hero ── */}
+        <section className="text-center mb-10 animate-float-up" style={{ animationDelay: '100ms' }}>
+          <p className="text-xs font-semibold tracking-[0.35em] uppercase text-gray-400 mb-4">
             Contrast Ratio
           </p>
+
           <div className="flex items-end justify-center leading-none mb-5">
             <span
-              className="font-display font-bold text-gray-900"
-              style={{ fontSize: 'clamp(64px, 12vw, 110px)' }}
+              key={ratioKey}
+              className="animate-ratio-pop aurora-text font-black"
+              style={{ fontSize: 'clamp(72px, 13vw, 120px)', lineHeight: 1, fontFamily: "'Space Grotesk', sans-serif" }}
             >
               {whole}.{decimal}
             </span>
-            <span className="text-2xl text-gray-400 font-light mb-3 ml-1">:1</span>
+            <span className="text-2xl text-gray-400 font-light mb-4 ml-2">:1</span>
           </div>
-          <span
-            className={`inline-block px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase ${badgeColor}`}
-          >
-            {badgeLabel}
-          </span>
+
+          {result && (
+            <span
+              className={`animate-badge-glow inline-block px-6 py-2.5 rounded-full text-xs font-bold tracking-widest uppercase text-white bg-gradient-to-r ${badgeConfig.bg}`}
+              style={{ boxShadow: '0 4px 20px rgba(139, 92, 246, 0.35)' }}
+            >
+              {badgeConfig.label}
+            </span>
+          )}
         </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        {/* ── Inputs + Preview ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 animate-float-up" style={{ animationDelay: '180ms' }}>
           <div>
-            <ColorPicker
-              label="Foreground Color"
-              icon="foreground"
-              color={fg}
-              onChange={setFg}
-            />
-            <ColorPicker
-              label="Background Color"
-              icon="background"
-              color={bg}
-              onChange={setBg}
-            />
+            <ColorPicker label="Foreground Color" icon="foreground" color={fg} onChange={setFg} />
+            <ColorPicker label="Background Color" icon="background" color={bg} onChange={setBg} />
           </div>
 
           <div className="flex flex-col gap-4">
@@ -139,8 +170,10 @@ export default function ContrastChecker() {
           </div>
         </div>
 
+        {/* ── Feature cards ── */}
         <div className="flex flex-col md:flex-row gap-4 mt-8">
           <FeatureCard
+            delay="260ms"
             icon={
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -153,6 +186,7 @@ export default function ContrastChecker() {
             description="Designed for visual accessibility experts who value precision and beauty in every pixel."
           />
           <FeatureCard
+            delay="320ms"
             icon={
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -163,6 +197,7 @@ export default function ContrastChecker() {
             description="Real-time calculations based on WCAG 2.1 guidelines for reliable contrast verification."
           />
           <FeatureCard
+            delay="380ms"
             icon={
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -170,13 +205,16 @@ export default function ContrastChecker() {
               </svg>
             }
             title="Tonal Depth"
-            description="No structural lines, only elegant background shifts to maintain a weightless aesthetic."
+            description="No structural lines, only elegant aurora shifts to maintain a weightless aesthetic."
           />
         </div>
       </main>
 
-      <footer className="text-center py-8 text-xs text-gray-400 tracking-widest uppercase">
-        © 2026 MHHCHECKER LAB 
+      {/* ── Footer ── */}
+      <footer className="relative z-10 text-center py-8">
+        <p className="text-[10px] tracking-widest uppercase text-gray-400">
+          © 2026 <span className="aurora-text font-semibold">MHHCHECKER LAB</span> · Color Contrast Intelligence
+        </p>
       </footer>
     </div>
   )

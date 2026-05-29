@@ -35,22 +35,32 @@ export default function ColorPicker({ label, icon, color, onChange }: ColorPicke
   }
 
   return (
-    <div className="mb-6">
-      <div className="flex items-center gap-2 mb-3">
-        {icon === 'foreground' ? (
-          <span className="text-blue-500 font-display text-lg font-bold italic">A</span>
-        ) : (
-          <span className="text-blue-400 font-display text-lg font-bold italic underline decoration-wavy">A</span>
-        )}
-        <span className="text-sm font-semibold text-gray-700 tracking-wide">{label}</span>
+    <div className="mb-5">
+      <div className="flex items-center gap-2 mb-2.5">
+        {/* Aurora gradient label icon */}
+        <span
+          className="text-lg font-black italic select-none aurora-text"
+          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+        >
+          {icon === 'foreground' ? 'A' : <u style={{ textDecorationStyle: 'wavy' }}>A</u>}
+        </span>
+        <span className="text-sm font-semibold text-gray-600 tracking-wide">{label}</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+      <div className="glass-card aurora-border rounded-2xl p-4 transition-all duration-300">
         <div className="flex items-center gap-4">
-          <label className="cursor-pointer flex-shrink-0">
+          {/* Color swatch */}
+          <label className="cursor-pointer flex-shrink-0 relative">
             <div
-              className="w-16 h-16 rounded-xl border border-gray-200 shadow-inner transition-transform hover:scale-105"
+              className="w-16 h-16 rounded-xl swatch-ring transition-transform duration-200 hover:scale-105"
               style={{ backgroundColor: color }}
+            />
+            {/* Subtle inner reflection */}
+            <div
+              className="absolute inset-0 rounded-xl pointer-events-none"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%)',
+              }}
             />
             <input
               type="color"
@@ -61,7 +71,14 @@ export default function ColorPicker({ label, icon, color, onChange }: ColorPicke
           </label>
 
           <div className="flex-1 min-w-0">
-            <p className="text-[10px] font-semibold text-gray-400 tracking-widest uppercase mb-1">
+            <p className="text-[10px] font-semibold tracking-widest uppercase mb-1"
+              style={{
+                background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
               Hex Code
             </p>
             <div className="flex items-center gap-2">
@@ -72,16 +89,16 @@ export default function ColorPicker({ label, icon, color, onChange }: ColorPicke
                 onBlur={() => setInputValue(color.toUpperCase())}
                 maxLength={7}
                 spellCheck={false}
-                className="flex-1 font-mono text-sm font-medium text-gray-800 bg-transparent border-none outline-none tracking-wider"
+                className="flex-1 font-mono text-sm font-semibold text-gray-700 bg-transparent border-none outline-none tracking-widest"
                 placeholder="#000000"
               />
               <button
                 onClick={handleCopy}
                 title="Copy hex"
-                className="p-1.5 rounded-lg text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors"
+                className="p-1.5 rounded-lg text-gray-400 hover:text-violet-500 hover:bg-violet-50 transition-all duration-200"
               >
                 {copied ? (
-                  <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 ) : (
@@ -92,7 +109,9 @@ export default function ColorPicker({ label, icon, color, onChange }: ColorPicke
                 )}
               </button>
             </div>
-            <div className="mt-2 h-px bg-gray-100" />
+            <div className="mt-2 h-px" style={{
+              background: 'linear-gradient(90deg, rgba(99,102,241,0.2), rgba(6,182,212,0.2), transparent)',
+            }} />
           </div>
         </div>
       </div>
