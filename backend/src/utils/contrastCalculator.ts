@@ -35,14 +35,17 @@ export function hexToRgb(hex: string): [number, number, number] | null {
 
 function linearize(channel: number): number {
   const c = channel / 255;
-  return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  const linear = c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  // Clamp to [0, 1]: floating-point arithmetic can yield slightly >1 for channel=255
+  // because (1.0 + 0.055) and the literal 1.055 have different IEEE 754 bit patterns.
+  return Math.min(1, Math.max(0, linear));
 }
 
 export function getRelativeLuminance(r: number, g: number, b: number): number {
   const R = linearize(r);
   const G = linearize(g);
   const B = linearize(b);
-  return 0.2126 * R + 0.7152 * G + 0.0726 * B;
+  return 0.2126 * R + 0.7152 * G + 0.0722 * B;
 }
 
 export function calculateContrastRatio(
