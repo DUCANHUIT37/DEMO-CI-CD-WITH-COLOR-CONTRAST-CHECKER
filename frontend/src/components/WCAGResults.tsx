@@ -74,15 +74,15 @@ export default function WCAGResults({ result }: WCAGResultsProps) {
         title="WCAG AA"
         smallPass={result.passesAA}
         largePass={result.passesAALarge}
-        accentFrom="#6366f1"
-        accentTo="#06b6d4"
+        accentFrom="#10b981"
+        accentTo="#14b8a6"
       />
       <ResultCard
         title="WCAG AAA"
         smallPass={result.passesAAA}
         largePass={result.passesAAALarge}
-        accentFrom="#8b5cf6"
-        accentTo="#ec4899"
+        accentFrom="#22c55e"
+        accentTo="#84cc16"
       />
     </div>
   )

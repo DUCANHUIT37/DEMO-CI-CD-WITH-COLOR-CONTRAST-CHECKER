@@ -25,7 +25,7 @@ function FeatureCard({
     >
       <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
         style={{
-          background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(6,182,212,0.12) 100%)',
+          background: 'linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(20,184,166,0.12) 100%)',
         }}
       >
         <span className="aurora-text">{icon}</span>
@@ -70,32 +70,32 @@ export default function ContrastChecker() {
   // Badge config
   const badgeConfig =
     result?.level === 'AAA'
-      ? { bg: 'from-violet-500 via-purple-500 to-indigo-500', label: 'WCAG AAA ✦ PASS' }
+      ? { bg: 'from-emerald-500 via-green-500 to-teal-500', label: 'WCAG AAA ✦ PASS' }
       : result?.level === 'AA'
-      ? { bg: 'from-blue-400 via-cyan-400 to-sky-500', label: 'WCAG AA ✦ PASS' }
+      ? { bg: 'from-green-400 via-teal-400 to-cyan-500', label: 'WCAG AA ✦ PASS' }
       : { bg: 'from-rose-400 via-pink-400 to-red-400', label: 'WCAG ✦ FAIL' }
 
   const [whole, decimal] = result ? result.ratioFormatted.split('.') : ['—', '—']
 
   return (
     <div className="min-h-screen relative overflow-hidden font-sans"
-      style={{ background: 'linear-gradient(160deg, #f8f7ff 0%, #f0f9ff 35%, #faf5ff 65%, #f0f9ff 100%)' }}
+      style={{ background: 'linear-gradient(160deg, #f0fdf4 0%, #f0fdfa 35%, #f7fee7 65%, #ecfdf5 100%)' }}
     >
       {/* ── Aurora background orbs ── */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden>
         <div className="aurora-orb-1 absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-30"
-          style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.35) 0%, rgba(99,102,241,0.15) 50%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(16,185,129,0.35) 0%, rgba(34,197,94,0.15) 50%, transparent 70%)' }}
         />
         <div className="aurora-orb-2 absolute top-1/3 -right-60 w-[700px] h-[700px] rounded-full opacity-25"
-          style={{ background: 'radial-gradient(circle, rgba(6,182,212,0.35) 0%, rgba(59,130,246,0.15) 50%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(20,184,166,0.35) 0%, rgba(14,165,233,0.12) 50%, transparent 70%)' }}
         />
         <div className="aurora-orb-3 absolute -bottom-40 left-1/3 w-[500px] h-[500px] rounded-full opacity-20"
-          style={{ background: 'radial-gradient(circle, rgba(236,72,153,0.25) 0%, rgba(139,92,246,0.12) 50%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(132,204,22,0.28) 0%, rgba(16,185,129,0.12) 50%, transparent 70%)' }}
         />
         {/* subtle grid */}
         <div className="absolute inset-0 opacity-[0.025]"
           style={{
-            backgroundImage: 'linear-gradient(rgba(99,102,241,1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,1) 1px, transparent 1px)',
+            backgroundImage: 'linear-gradient(rgba(16,185,129,1) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,1) 1px, transparent 1px)',
             backgroundSize: '60px 60px',
           }}
         />
@@ -109,14 +109,14 @@ export default function ContrastChecker() {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
               <defs>
                 <linearGradient id="prism-g" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#6366f1" />
-                  <stop offset="50%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#06b6d4" />
+                  <stop offset="0%" stopColor="#10b981" />
+                  <stop offset="50%" stopColor="#22c55e" />
+                  <stop offset="100%" stopColor="#14b8a6" />
                 </linearGradient>
               </defs>
               <path d="M12 2L2 19h20L12 2z" stroke="url(#prism-g)" strokeWidth="1.8" strokeLinejoin="round" fill="none"/>
-              <path d="M12 2L7 19" stroke="rgba(139,92,246,0.4)" strokeWidth="1" />
-              <path d="M12 2L17 19" stroke="rgba(6,182,212,0.4)" strokeWidth="1" />
+              <path d="M12 2L7 19" stroke="rgba(16,185,129,0.4)" strokeWidth="1" />
+              <path d="M12 2L17 19" stroke="rgba(20,184,166,0.4)" strokeWidth="1" />
             </svg>
             <h1 className="aurora-text text-lg font-[900] tracking-[0.3em] uppercase">
               MHHCHECKER
@@ -150,7 +150,7 @@ export default function ContrastChecker() {
           {result && (
             <span
               className={`animate-badge-glow inline-block px-6 py-2.5 rounded-full text-xs font-bold tracking-widest uppercase text-white bg-gradient-to-r ${badgeConfig.bg}`}
-              style={{ boxShadow: '0 4px 20px rgba(139, 92, 246, 0.35)' }}
+              style={{ boxShadow: '0 4px 20px rgba(16, 185, 129, 0.35)' }}
             >
               {badgeConfig.label}
             </span>

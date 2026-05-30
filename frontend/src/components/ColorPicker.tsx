@@ -73,7 +73,7 @@ export default function ColorPicker({ label, icon, color, onChange }: ColorPicke
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-semibold tracking-widest uppercase mb-1"
               style={{
-                background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
+                background: 'linear-gradient(90deg, #10b981, #22c55e)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -95,7 +95,7 @@ export default function ColorPicker({ label, icon, color, onChange }: ColorPicke
               <button
                 onClick={handleCopy}
                 title="Copy hex"
-                className="p-1.5 rounded-lg text-gray-400 hover:text-violet-500 hover:bg-violet-50 transition-all duration-200"
+                className="p-1.5 rounded-lg text-gray-400 hover:text-emerald-500 hover:bg-emerald-50 transition-all duration-200"
               >
                 {copied ? (
                   <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
